@@ -1,50 +1,45 @@
 ;;;; test.lisp -*- Mode: Lisp;-*- 
 
-(cl:in-package srfi-118.internal)
+(cl:in-package "https://github.com/g000001/srfi-118#internals")
 
 
-(def-suite srfi-118)
+(def-suite* srfi-118)
 
 
-(in-suite srfi-118)
-
-
-(test string-append!
-  (is-true (Let* ((s (Make-Array 0
+(Test String-Append!
+  (Is-True (let* ((S (make-array 0
                                  :element-type 'character
-                                 :Fill-Pointer 0
-                                 :adjustable T))
-                  (res (string-append! s "bar" "baz" "zot")))
-             (And (Eq s res)
-                  (String= s "barbazzot"))))
-  (is-true (Let* ((s (Make-Array 0
+                                 :fill-pointer 0
+                                 :adjustable t))
+                  (Res (String-Append! S "bar" "baz" "zot")))
+             (and (eq S Res)
+                  (string= S "barbazzot"))))
+  (Is-True (let* ((s (make-array 0
                                  :element-type 'character
-                                 :Fill-Pointer 0
-                                 :adjustable T))
-                  (res (string-append! s)))
-             (And (Eq s res)
-                  (String= s "")))))
+                                 :fill-pointer 0
+                                 :adjustable t))
+                  (Res (String-Append! S)))
+             (and (eq S Res)
+                  (string= S "")))))
 
 
-(test string-replace!
-  (is-true (Let* ((s (Make-Array 0
+(Test String-Replace!
+  (Is-True (let* ((S (make-array 0
                                  :element-type 'character
                                  :initial-element #\_
-                                 :Fill-Pointer 0
-                                 :adjustable T))
-                  (res (string-replace! s 0 9 "foobarbaz")))
-             (And (Eq s res)
-                  (String= s "foobarbaz"))))
-  (is-true (Let* ((s (Make-Array 9
+                                 :fill-pointer 0
+                                 :adjustable t))
+                  (Res (String-Replace! s 0 9 "foobarbaz")))
+             (and (eq S Res)
+                  (string= S "foobarbaz"))))
+  (Is-True (let* ((S (make-array 9
                                  :element-type 'character
                                  :initial-element #\_
-                                 :Fill-Pointer 9
+                                 :fill-pointer 9
                                  :adjustable T))
-                  (res (string-replace! s 3 6 "BAR")))
-             (And (Eq s res)
-                  (String= s "___BAR___")))))
+                  (Res (String-Replace! S 3 6 "BAR")))
+             (and (eq S Res)
+                  (string= S "___BAR___")))))
 
 
 ;;; *EOF*
-
-

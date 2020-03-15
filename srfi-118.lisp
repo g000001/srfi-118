@@ -1,31 +1,31 @@
 ;;;; srfi-118.lisp -*- Mode: Lisp;-*- 
 
-(cl:in-package :srfi-118.internal)
+(cl:in-package "https://github.com/g000001/srfi-118#internals")
 
 
-(Defun string-append! (string &rest strings)
-  (Check-Type String (And String (Satisfies Array-Has-Fill-Pointer-P)))
-  (Let* ((orig-len (Length String))
-         (total-length (+ orig-len
-                          (Reduce #'+ strings :key #'Length))))
-    (Adjust-Array String total-length)
-    (Setf (Fill-Pointer string) total-length)
-    (Loop :for s :in strings
-          :for start-pos := orig-len :then end-pos
-          :for end-pos := (+ start-pos (Length s)) :then (+ end-pos (Length s))
-          :Do (Replace String s :start1 start-pos :end1 end-pos))
-    string))
+(defun String-Append! (String &rest Strings)
+  (check-type String (and String (satisfies array-has-fill-pointer-p)))
+  (let* ((Orig-Len (length String))
+         (Total-Length (+ Orig-Len
+                          (reduce #'+ Strings :key #'length))))
+    (adjust-array String Total-Length)
+    (setf (fill-pointer String) Total-Length)
+    (loop :for S :in Strings
+          :for Start-Pos := Orig-Len :then End-Pos
+          :for End-Pos := (+ Start-Pos (length S)) :then (+ End-Pos (length S))
+          :do (replace String S :start1 Start-Pos :end1 End-Pos))
+    String))
 
 
-(Defun string-replace! (dst dst-start dst-end src &Optional src-start src-end)
-  (Check-Type dst (And String (Satisfies Array-Has-Fill-Pointer-P)))
-  (Let ((result-length (Max dst-end (or src-end 0) (Length dst) (Length src))))
-    (Adjust-Array dst result-length)
-    (Setf (Fill-Pointer dst) result-length)
-    (Replace dst src :start1 dst-start
-                     :end1 dst-end
-                     :start2 (or src-start 0)
-                     :end2 (or src-end (Length src)))))
+(defun String-Replace! (Dst Dst-Start Dst-End Src &optional Src-Start Src-End)
+  (check-type Dst (and String (satisfies array-has-fill-pointer-p)))
+  (let ((Result-Length (max Dst-End (or Src-End 0) (length Dst) (length Src))))
+    (adjust-array Dst Result-Length)
+    (setf (fill-pointer Dst) Result-Length)
+    (replace Dst Src :start1 Dst-Start
+                     :end1 Dst-End
+                     :start2 (or Src-Start 0)
+                     :end2 (or Src-End (length Src)))))
 
 
 ;;; *EOF*
